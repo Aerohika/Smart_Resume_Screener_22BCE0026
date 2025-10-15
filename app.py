@@ -65,11 +65,11 @@ def analyze_resume():
 You are an intelligent HR assistant.
 Compare the following resume with the given job description and provide a structured, professional analysis:
 
-1️⃣ Match percentage (1–100%)
-2️⃣ Key strengths and relevant experience
-3️⃣ Missing or weak skills
-4️⃣ Suggestions for improvement (keywords, tools, certifications)
-5️⃣ One-line summary: Is this candidate a strong fit?
+1️. Match percentage (1–100%)
+2️. Key strengths and relevant experience
+3️. Missing or weak skills
+4️. Suggestions for improvement (keywords, tools, certifications)
+5️. One-line summary: Is this candidate a strong fit?
 
 --- Resume ---
 {resume_text}
