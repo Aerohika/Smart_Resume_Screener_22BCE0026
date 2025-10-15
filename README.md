@@ -1,5 +1,6 @@
 # Smart Resume Screener - 22BCE0026
 Demo Video: https://drive.google.com/file/d/13EK3JBL4eBQK0Bthr-dgy_jmRF9e__fh/view?usp=drivesdk
+
 A Flask-based web application that intelligently analyzes resumes against a job description using Google's Gemini AI (LLM). The app extracts text from uploaded PDFs and generates a structured report highlighting match percentage, key strengths, missing skills, and suggestions for improvement.
 
 ---
