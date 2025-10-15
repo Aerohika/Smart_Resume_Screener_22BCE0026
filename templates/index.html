@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Resume Screener</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Smart Resume Screener 💼</h1>
+
+    <form id="resumeForm" enctype="multipart/form-data">
+      <label>Upload Resume (PDF):</label>
+      <input type="file" name="resume" accept=".pdf" required><br><br>
+
+      <label>Paste Job Description:</label>
+      <textarea name="jobdesc" placeholder="Paste job description here..." required></textarea>
+
+      <button type="submit">Analyze</button>
+    </form>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    document.getElementById("resumeForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      document.getElementById("result").innerHTML = "⏳ Analyzing...";
+      const response = await fetch("/analyze", {
+        method: "POST",
+        body: formData
+      });
+      const data = await response.json();
+      document.getElementById("result").innerHTML = `<pre>${data.result}</pre>`;
+    });
+  </script>
+</body>
+</html>
