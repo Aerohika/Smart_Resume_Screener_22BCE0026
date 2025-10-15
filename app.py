@@ -2,8 +2,8 @@ import os
 import time
 from flask import Flask, render_template, request, jsonify
 import fitz  # PyMuPDF for PDF text extraction
-from google import genai  # ✅ Gemini SDK
-from dotenv import load_dotenv  # ✅ For loading environment variables
+from google import genai  # Gemini SDK
+from dotenv import load_dotenv  # For loading environment variables
 
 # -----------------------------
 # CONFIGURATION
@@ -16,7 +16,7 @@ load_dotenv()
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 if not GEMINI_API_KEY:
-    raise ValueError("❌ GEMINI_API_KEY not found. Please create a .env file and add your key.")
+    raise ValueError("GEMINI_API_KEY not found. Please create a .env file and add your key.")
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
@@ -49,7 +49,7 @@ def analyze_resume():
     file = request.files.get("resume")
 
     if not job_desc or not file:
-        return jsonify({"result": "⚠️ Please upload a resume and paste a job description."})
+        return jsonify({"result": " Please upload a resume and paste a job description."})
 
     # Save uploaded file
     if not os.path.exists(app.config["UPLOAD_FOLDER"]):
@@ -89,7 +89,7 @@ Compare the following resume with the given job description and provide a struct
                     model=model_name,
                     contents=prompt_text
                 )
-                # ✅ Use correct property
+                # Use correct property
                 return response.candidates[0].content.parts[0].text
             except Exception as e:
                 if "503" in str(e) or "UNAVAILABLE" in str(e):
@@ -110,7 +110,7 @@ Compare the following resume with the given job description and provide a struct
                 raise e
 
     except Exception as e:
-        result = f"❌ Error: {str(e)}"
+        result = f"Error: {str(e)}"
 
     return jsonify({"result": result})
 
