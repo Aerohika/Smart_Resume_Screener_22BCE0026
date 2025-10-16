@@ -33,44 +33,52 @@ The Smart Resume Screener follows this workflow:
 
 ```plaintext
 User
- │
- ▼
+  │
+  ▼
 Uploads Resume & Job Description
- │
- ▼
-Flask Web App (PDF Text Extraction)
- │
- ▼
-Gemini AI (Resume Analysis)
- │
- ▼
-Structured JSON Response
- │
- ▼
-Frontend (HTML + JS) → Displays Analysis to User
+  │
+  ▼
+Flask Web App (app.py)
+  │
+  ├─ PDF Text Extraction (PyMuPDF)
+  │
+  ├─ Gemini AI (LLM)
+  │    └─ Compares resume with job description
+  │
+  └─ Structured JSON Response
+       ├─ Match Percentage
+       ├─ Key Strengths
+       ├─ Missing/Weak Skills
+       ├─ Suggestions
+       └─ One-Line Summary
+  │
+  ▼
+Frontend (HTML + JS)
+  └─ Displays analysis results to the user
+  │
+  ▼
+SQLite Database (resumes.db)
+  └─ Stores history of analyses (filename, match score, summary)
+
 
 
 ---
 ## LLM Prompts
 
-You are an intelligent HR assistant.
-Compare the following resume with the given job description and provide a structured, professional analysis:
+You are an expert HR assistant.
+Compare the following resume with the job description and provide this structured output:
 
-Match percentage (1–100%)
-
-Key strengths and relevant experience
-
-Missing or weak skills
-
-Suggestions for improvement (keywords, tools, certifications)
-
-One-line summary: Is this candidate a strong fit?
+1. Match percentage (1–100)
+2. Key strengths
+3. Missing or weak skills
+4. Suggestions for improvement
+5. One-line summary of fit
 
 --- Resume ---
-<Extracted resume text>
+<INSERT_RESUME_TEXT_HERE>
 
 --- Job Description ---
-<Provided job description>
+<INSERT_JOB_DESCRIPTION_HERE>
 
 ---
 
