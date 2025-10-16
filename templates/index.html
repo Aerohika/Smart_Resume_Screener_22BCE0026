@@ -2,37 +2,71 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smart Resume Screener</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
   <div class="container">
-    <h1>Smart Resume Screener 💼</h1>
+    <h1>Smart Resume Screener</h1>
+    <p>Upload one or more resumes and a job description to analyze candidate-job fit using Gemini AI.</p>
 
     <form id="resumeForm" enctype="multipart/form-data">
-      <label>Upload Resume (PDF):</label>
-      <input type="file" name="resume" accept=".pdf" required><br><br>
+      <!-- Job Description -->
+      <div class="form-section">
+        <label for="jobdesc"><strong>Job Description</strong></label><br>
+        <textarea id="jobdesc" name="jobdesc" rows="8" cols="80" placeholder="Paste the job description here..." required></textarea>
+      </div>
 
-      <label>Paste Job Description:</label>
-      <textarea name="jobdesc" placeholder="Paste job description here..." required></textarea>
+      <!-- Resume Upload -->
+      <div class="form-section">
+        <label for="resumes"><strong>Upload Resumes (PDF)</strong></label><br>
+        <input type="file" id="resumes" name="resumes" multiple accept=".pdf" required>
+        <p class="note">You can select multiple PDF resumes at once.</p>
+      </div>
 
-      <button type="submit">Analyze</button>
+      <div class="form-section">
+        <button type="submit" class="btn">Analyze Resumes</button>
+      </div>
     </form>
 
-    <div id="result"></div>
+    <div id="loader" style="display:none; margin-top:20px;">
+      <p>⏳ Analyzing resumes... please wait.</p>
+    </div>
+
+    <div id="results" style="margin-top:30px;"></div>
   </div>
 
   <script>
-    document.getElementById("resumeForm").addEventListener("submit", async (e) => {
+    const form = document.getElementById('resumeForm');
+    const loader = document.getElementById('loader');
+    const resultsDiv = document.getElementById('results');
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const formData = new FormData(e.target);
-      document.getElementById("result").innerHTML = "⏳ Analyzing...";
-      const response = await fetch("/analyze", {
-        method: "POST",
+      loader.style.display = 'block';
+      resultsDiv.innerHTML = '';
+
+      const formData = new FormData(form);
+      const response = await fetch('/analyze', {
+        method: 'POST',
         body: formData
       });
+
       const data = await response.json();
-      document.getElementById("result").innerHTML = `<pre>${data.result}</pre>`;
+      loader.style.display = 'none';
+
+      if (data.error) {
+        resultsDiv.innerHTML = `<p style="color:red;">${data.error}</p>`;
+        return;
+      }
+
+      let html = '<h2>Results:</h2><table border="1" cellpadding="8"><tr><th>Candidate</th><th>Match Score</th><th>Summary</th></tr>';
+      data.results.forEach(r => {
+        html += `<tr><td>${r.filename}</td><td>${r.score}%</td><td>${r.summary}</td></tr>`;
+      });
+      html += '</table>';
+      resultsDiv.innerHTML = html;
     });
   </script>
 </body>
