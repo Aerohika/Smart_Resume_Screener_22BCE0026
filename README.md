@@ -1,5 +1,5 @@
 # Smart Resume Screener - 22BCE0026
-Demo Video: https://drive.google.com/file/d/13EK3JBL4eBQK0Bthr-dgy_jmRF9e__fh/view?usp=drivesdk
+Demo Video: https://drive.google.com/file/d/1SADvj-eGlaOu-QGjJZQu4FbYFn6mnV0F/view?usp=drivesdk
 
 A Flask-based web application that intelligently analyzes resumes against a job description using Google's Gemini AI (LLM). The app extracts text from uploaded PDFs and generates a structured report highlighting match percentage, key strengths, missing skills, and suggestions for improvement.
 
@@ -7,27 +7,23 @@ A Flask-based web application that intelligently analyzes resumes against a job 
 
 ## Architecture
 --- 
+The Smart Resume Screener follows a modular workflow to analyze resumes against job descriptions and provide actionable insights:
+1.	User Interaction
+   o	Users upload their Resume and Job Description via the web interface.
+2.	Flask Web App (app.py)
+   o	Handles file uploads securely and manages temporary storage.
+   o	Extracts text from uploaded PDFs using PyMuPDF.
+3.	Gemini AI (LLM) Analysis
+   o	Analyzes the extracted resume and job description.
+   o	Compares the resume against job requirements.
+   o	Identifies key strengths, missing or weak skills, and provides suggestions for improvement.
+4.	Structured JSON Response
+   o	Stores the LLM analysis in a structured JSON format for easy processing and frontend display.
+   o	Includes: match percentage, key strengths, missing skills, suggestions, and a one-line summary.
+5.	Frontend Display
+   o	Uses HTML + JavaScript to dynamically render results to the user.
+   o	Displays the match percentage, key strengths, missing skills, and suggestions clearly and concisely.
 
-The Smart Resume Screener follows this workflow:
-
-1. **User Interaction**
-   - User uploads their **Resume** and **Job Description** via the web interface.
-
-2. **Flask Web App (`app.py`)**
-   - Handles file uploads.
-   - Extracts text from PDFs using **PyMuPDF**.
-
-3. **Gemini AI (LLM)**
-   - Analyzes the extracted text.
-   - Compares resume with job description.
-   - Identifies key strengths, missing skills, and improvement suggestions.
-
-4. **Structured JSON Response**
-   - Stores the analysis in a structured format for easy processing.
-
-5. **Frontend Display**
-   - **HTML + JavaScript** renders the results.
-   - Shows match percentage, key strengths, missing skills, and suggestions to the user.
 
 **Flow Diagram**
 
@@ -133,13 +129,11 @@ One-line candidate fit summary
 User-friendly web interface built with Flask, HTML, and JavaScript.
 
 Technologies Used
-Python, Flask
-
-PyMuPDF (for PDF text extraction)
-
-HTML, CSS, JavaScript (Frontend)
-
-Gemini AI LLM (Resume analysis)
-
-dotenv (Environment variable management)
+•	Flask – Handles web server, routing, and API endpoints.
+•	PyMuPDF (fitz) – Extracts text from uploaded PDF resumes.
+•	Google Gemini AI (genai) – Performs resume analysis and comparison with job descriptions.
+•	sqlite3 – Stores analysis results (filename, match score, summary).
+•	dotenv (python-dotenv) – Loads environment variables like GEMINI_API_KEY.
+•	os & time – File management, folder creation, and retry delays.
+•	re – Extracts numeric match percentage reliably from LLM output
 
